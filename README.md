@@ -6,6 +6,7 @@
 - [README.md](#readmemd)
   - [Voraussetzungen](#voraussetzungen)
   - [Quickstart](#quickstart)
+- [Ergebnis nach compose up --build](#ergebnis-nach-compose-up--build)
   - [Enthaltene Tools](#enthaltene-tools)
   - [Ports und Volumes](#ports-und-volumes)
   - [Sicherheitshinweis](#sicherheitshinweis)
@@ -33,13 +34,22 @@ Build und Start:
 docker compose up --build
 ```
 
+# Ergebnis nach compose up --build
+```bash
+root@5972d85e443e:/workspace# docker ps
+CONTAINER ID   IMAGE                     COMMAND            CREATED          STATUS          PORTS                                                                                      NAMES
+5972d85e443e   modul2-dockervscode-dev   "sleep infinity"   22 minutes ago   Up 22 minutes   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp, 0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   ide-dev
+
+```
+![alt text](image-1.png)
+![alt text](image.png)
 
 Container stoppen:
 
 ```bash
 docker compose down
 ```
-
+![alt text](image-2.png)
 ## Enthaltene Tools
 Aus dem `Dockerfile` werden u. a. installiert:
 - git, curl, wget, vim, build-essential
