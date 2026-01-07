@@ -4,9 +4,11 @@ on:
     branches: [ main ] # Oder Ihr Standard-Branch-Name
     paths:
       - '**.puml'
+      - '**.plantuml'
 
 jobs:
   render:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: write # Wichtig für den Schreibzugriff
@@ -21,12 +23,12 @@ jobs:
         with:
           path: 'diagrams'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Auto-Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v5
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           commit_message: "chore: update mindmap diagrams"
-          # Verhindert den Fehler durch Zusammenführen der Änderungen
-          push_options: '--force' 
 
