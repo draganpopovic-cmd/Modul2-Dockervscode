@@ -72,3 +72,4 @@ jobs:
           message: Render PlantUML files
         env:
           PLANTUML_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
