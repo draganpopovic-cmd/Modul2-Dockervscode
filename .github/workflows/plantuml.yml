@@ -3,8 +3,9 @@ on:
   push:
     branches: [ main ] # Oder Ihr Standard-Branch-Name
     paths:
-      - '**.puml'
-      - '**.plantuml'
+      - '**/*.puml'
+      - '**/*.plantuml'
+      - '**/*.md'
 
 jobs:
   render:
@@ -18,10 +19,45 @@ jobs:
         with:
           fetch-depth: 0 # Holt die gesamte Historie für korrekte Merges
 
+      - name: Extract PlantUML blocks from Markdown
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import re
+          from pathlib import Path
+
+          root = Path('.')
+          out_dir = Path('diagrams/extracted')
+          # Remove old extracted files to avoid stale diagrams
+          if out_dir.exists():
+            for p in out_dir.glob('*.puml'):
+              p.unlink()
+          out_dir.mkdir(parents=True, exist_ok=True)
+
+          # Match fenced blocks: ```plantuml ... ```
+          block_re = re.compile(r"```plantuml\s*\n(.*?)\n```", re.DOTALL | re.IGNORECASE)
+
+          written = 0
+          for md in root.rglob('*.md'):
+            if '.git' in md.parts:
+              continue
+            text = md.read_text(encoding='utf-8', errors='ignore')
+            blocks = block_re.findall(text)
+            for idx, content in enumerate(blocks, start=1):
+              content = content.strip() + "\n"
+              h = hashlib.sha1((str(md) + str(idx) + content).encode('utf-8')).hexdigest()[:10]
+              safe_stem = md.stem.replace(' ', '_')
+              out = out_dir / f"{safe_stem}_{idx:02d}_{h}.puml"
+              out.write_text(content, encoding='utf-8')
+              written += 1
+
+          print(f"Extracted {written} PlantUML blocks into {out_dir}")
+          PY
+
       - name: Render PlantUML
         uses: grassedge/generate-plantuml-action@v1.5
         with:
-          path: 'diagrams'
+          path: 'diagrams' # includes diagrams/extracted generated from Markdown
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -31,4 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           commit_message: "chore: update mindmap diagrams"
+          file_pattern: |
+            diagrams/**/*.puml
+            diagrams/**/*
 
