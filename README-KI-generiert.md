@@ -292,7 +292,6 @@ Ebenso sollte festgehalten werden, was nicht abgedeckt ist, um falsche Erwartung
 eine Knowledge Base oder Austauschplattform (z.B. Teams-Wiki oder Confluence) einzurichten, wo Entwickler Erfahrungen, Tipps und eventuelle Workarounds teilen können. Die Einführung einer neuen, einheitlichen IDE-Umgebung ist auch ein Change-Management-Thema: durch klare technische Umsetzung (Dockerfile, Compose, Devcontainer) und begleitende Dokumentation/Schulungen stellt man sicher, dass das Team die Vorteile versteht und das neue Setup akzeptiert. So erreicht das Projekt sein Ziel: eine sichere, replizierbare und komfortable Entwicklungsumgebung für alle Beteiligten. code.visualstudio.comcode.visualstudio.comQuellen
 
 
-
 # Mindmap
 ```plantuml
 @startmindmap
