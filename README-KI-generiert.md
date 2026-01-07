@@ -330,3 +330,37 @@ skinparam backgroundColor #superhero-outline
 
 
 ```
+
+
+@startmindmap
+skinparam backgroundColor #superhero-outline
++ IDE-Umgebung Docker
+++ Dockerfile
++++ Basis-Image: Ubuntu 22.04
++++ Tools: Git, Curl, Vim, Python3, Node.js, Newman, Trivy, Gitleaks
++++ Arbeitsverzeichnis: /workspace
++++ CMD: sleep infinity
+++ docker-compose.yml
++++ Volumes: Quellcode, Docker-Socket
++++ Ports: 3000, 8000
++++ Optional: PostgreSQL-Service
+++ Devcontainer
++++ VS Code Extensions: ESLint, Prettier, Docker, Trivy
++++ Forwarded Ports: 3000, 8000
++++ Remote User: vscode
+-- Security & Tools
+--- Trivy
+--- Gitleaks
+--- Secrets-Scan
+--- Linting Tools (ESLint, Hadolint)
+-- Optimierung
+--- Vorbuild-Image
+--- Layer-Caching
+--- Setup \< 30 Min
+--- Parallele Einrichtung
+-- Dokumentation & Migration
+--- Setup Guide
+--- Tools & Versionen
+--- Sicherheits-Workflows
+--- Migration bestehender Projekte
+@endmindmap
