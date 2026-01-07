@@ -22,6 +22,7 @@ Dieses Repository stellt einen einfachen Devcontainer bereit, der gängige
 Entwickler-Tools (Docker, Node.js, Python) sowie Security-Tools (Trivy,
 Gitleaks) in einem Ubuntu-Container bündelt.
 
+
 ## Voraussetzungen
 - Docker Desktop oder Docker Engine
 - Docker Compose (v2 empfohlen)
