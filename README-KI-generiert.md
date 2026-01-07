@@ -293,6 +293,8 @@ eine Knowledge Base oder Austauschplattform (z.B. Teams-Wiki oder Confluence) ei
 
 
 # Mindmap
+
+Mindmap
 ```plantuml
 @startmindmap
 skinparam backgroundColor #superhero-outline
