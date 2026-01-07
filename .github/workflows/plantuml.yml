@@ -70,5 +70,4 @@ jobs:
           path: 'diagrams' # includes diagrams/extracted generated from Markdown
           message: Render PlantUML files
         env:
-          GITHUB_TOKEN: ${{ env.PLANTUML_TOKEN }}
-
+          PLANTUML_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
