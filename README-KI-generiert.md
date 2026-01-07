@@ -7,7 +7,7 @@
 - [Prompt](#prompt)
 - [Aufbau des Dockerfiles 📦](#aufbau-des-dockerfiles-)
 - [Security-Tools (CVE- und Schwachstellenprüfung):](#security-tools-cve--und-schwachstellenprüfung)
-  - [Volumes & Arbeitsverzeichnis](#volumes--arbeitsverzeichnis)
+  - [Volumes \& Arbeitsverzeichnis](#volumes--arbeitsverzeichnis)
   - [Ports](#ports)
   - [Nicht im Container enthalten](#nicht-im-container-enthalten)
 - [Verwendung von Docker Compose 🗂️](#verwendung-von-docker-compose-️)
@@ -40,7 +40,7 @@
   - [Inhalt der Dev-Umgebung](#inhalt-der-dev-umgebung)
   - [Sicherheits-Workflows](#sicherheits-workflows)
   - [Migration bestehender Projekte](#migration-bestehender-projekte)
-  - [Limitierungen & Ausschlüsse](#limitierungen--ausschlüsse)
+  - [Limitierungen \& Ausschlüsse](#limitierungen--ausschlüsse)
   - [Abschließend empfiehlt es sich](#abschließend-empfiehlt-es-sich)
 - [Mindmap](#mindmap)
 
@@ -330,6 +330,5 @@ skinparam backgroundColor #superhero-outline
 
 
 ```
-
 
 

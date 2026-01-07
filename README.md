@@ -6,7 +6,7 @@
 - [README.md](#readmemd)
   - [Voraussetzungen](#voraussetzungen)
   - [Quickstart](#quickstart)
-- [Ergebnis nach compose up --build](#ergebnis-nach-compose-up--build)
+- [Ergebnis nach compose up --build](#ergebnis-nach-compose-up---build)
   - [Enthaltene Tools](#enthaltene-tools)
   - [Ports und Volumes](#ports-und-volumes)
   - [Sicherheitshinweis](#sicherheitshinweis)
@@ -27,6 +27,7 @@ Gitleaks) in einem Ubuntu-Container bündelt.
 - Docker Desktop oder Docker Engine
 - Docker Compose (v2 empfohlen)
 - Optional: VS Code + Dev Containers Extension
+
 
 ## Quickstart
 Build und Start:
