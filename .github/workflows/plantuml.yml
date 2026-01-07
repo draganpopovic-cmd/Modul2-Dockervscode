@@ -27,7 +27,7 @@ jobs:
           from pathlib import Path
 
           root = Path('.')
-          out_dir = Path('/diagrams/extracted')
+          out_dir = Path('diagrams/extracted')
           # Remove old extracted files to avoid stale diagrams
           if out_dir.exists():
             for p in out_dir.glob('*.puml'):
@@ -57,7 +57,7 @@ jobs:
       - name: Render PlantUML
         uses: grassedge/generate-plantuml-action@v1.5
         with:
-          path: '/diagrams' # includes diagrams/extracted generated from Markdown
+          path: 'diagrams' # includes diagrams/extracted generated from Markdown
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -68,6 +68,5 @@ jobs:
         with:
           commit_message: "chore: update mindmap diagrams"
           file_pattern: |
-            diagrams/**/*.puml
             diagrams/**/*
 
