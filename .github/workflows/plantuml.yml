@@ -65,11 +65,17 @@ jobs:
           echo "event=${{ github.event_name }}"
           echo "ref=${{ github.ref }}"
 
+      - name: Manual run note
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "workflow_dispatch detected: grassedge/generate-plantuml-action expects push commit metadata and is skipped."
+          echo "To render diagrams, push a change to a .md/.puml/.plantuml file."
+
       - name: Render PlantUML
+        if: github.event_name == 'push'
         uses: grassedge/generate-plantuml-action@v1.5
         with:
           path: 'diagrams' # includes diagrams/extracted generated from Markdown
           message: Render PlantUML files
         env:
-          PLANTUML_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ env.PLANTUML_TOKEN }}
