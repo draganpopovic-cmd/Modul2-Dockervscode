@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  dev:
+    build: .                      # Image aus dem Dockerfile bauen
+    container_name: ide-dev       # Verständlicherer Name für den Container
+    volumes:
+      - .:/workspace              # Quellcode ins Container-Arbeitsverzeichnis einbinden
+      - /var/run/docker.sock:/var/run/docker.sock   # Docker-Socket für Docker-in-Docker Zugriff
+    ports:
+      - "3000:3000"               # Beispiel: Port 3000 forwarden
+      - "8000:8000"               # Beispiel: Port 8000 forwarden
+    # user: "1000:1000"           # Optional: Container als nicht-root User starten (IDs anpassen)
+    # environment:
+    #   - NODE_ENV=development    # Beliebige Umgebungsvariablen
