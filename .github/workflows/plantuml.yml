@@ -59,14 +59,6 @@ jobs:
         with:
           path: 'diagrams' # includes diagrams/extracted generated from Markdown
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Auto-Commit Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          commit_message: "chore: update mindmap diagrams"
-          file_pattern: |
-            diagrams/**/*
 
