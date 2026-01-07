@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Holt die gesamte Historie für korrekte Merges
+          persist-credentials: true
 
       - name: Extract PlantUML blocks from Markdown
         run: |
@@ -60,5 +61,4 @@ jobs:
           path: 'diagrams' # includes diagrams/extracted generated from Markdown
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
