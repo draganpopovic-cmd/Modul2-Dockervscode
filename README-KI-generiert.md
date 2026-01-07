@@ -7,6 +7,9 @@
 - [Prompt](#prompt)
 - [Aufbau des Dockerfiles 📦](#aufbau-des-dockerfiles-)
 - [Security-Tools (CVE- und Schwachstellenprüfung):](#security-tools-cve--und-schwachstellenprüfung)
+  - [Volumes & Arbeitsverzeichnis](#volumes--arbeitsverzeichnis)
+  - [Ports](#ports)
+  - [Nicht im Container enthalten](#nicht-im-container-enthalten)
 - [Verwendung von Docker Compose 🗂️](#verwendung-von-docker-compose-️)
   - [PostgreSQL-Container hinzufügen:](#postgresql-container-hinzufügen)
 - [Automatisierung mit Devcontainer ⚙️](#automatisierung-mit-devcontainer-️)
@@ -37,7 +40,7 @@
   - [Inhalt der Dev-Umgebung](#inhalt-der-dev-umgebung)
   - [Sicherheits-Workflows](#sicherheits-workflows)
   - [Migration bestehender Projekte](#migration-bestehender-projekte)
-  - [Limitierungen \& Ausschlüsse](#limitierungen--ausschlüsse)
+  - [Limitierungen & Ausschlüsse](#limitierungen--ausschlüsse)
   - [Abschließend empfiehlt es sich](#abschließend-empfiehlt-es-sich)
 - [Mindmap](#mindmap)
 
@@ -124,9 +127,13 @@ API-Testing Tools: Das Dockerfile installiert zwei wichtige CLI-Tools für API-T
 
 # Security-Tools (CVE- und Schwachstellenprüfung): 
 Eine zentrale Anforderung ist die integrierte Sicherheitsprüfung. Im Dockerfile wird daher Trivy installiert. Trivy ist ein populärer Open-Source Scanner, der Container-Images und Dateisysteme bzw. Projektabhängigkeiten auf bekannte Schwachstellen (CVEs) und Fehlkonfigurationen prüfen kannaquasec.com. Über trivy lassen sich z.B. Basis-Images oder Dependency-Dateien (pom.xml, package-lock.json etc.) automatisch auf CVEs prüfen. Zusätzlich wird im Beispiel Gitleaks eingebunden – ein Tool, das den Code auf Hardcoded Secrets (Tokens, Passwörter etc.) scannt. Gitleaks kann sehr einfach als einzelnes Binary installiert werdengithub.com, wie im Dockerfile per wget demonstriert (alternativ wäre auch ein TruffleHog-Scan möglich; beide haben ähnliche Funktion). Diese Tools laufen im Container und können z.B. via CI oder pre-commit Hooks angestoßen werden, um Sicherheitsprobleme frühzeitig zu entdecken.
-Volumes & Arbeitsverzeichnis: Im Dockerfile setzen wir WORKDIR /workspace – dieses Verzeichnis dient als Mount-Point für den Quellcode der Projekte. In der Compose-Datei wird das aktuelle Projektverzeichnis vom Host genau dort eingehängt. So arbeiten Entwickler im Container direkt mit den Host-Dateien, was schnellen Dateiabgleich ermöglicht. Zusätzlich könnten weitere Volumes definiert werden, etwa um Build-Caches oder Tool-Konfigurationen (npm Cache, Maven Repository etc.) persistent zu halten und den Aufbau zu beschleunigen. Solche Caches liegen oft in Home-Verzeichnissen – man könnte sie via Volume mounten, damit z.B. beim nächsten Container-Start Bibliotheken nicht erneut komplett heruntergeladen werden müssen.
-Ports: Damit Web-Apps, APIs oder andere Dienste im Container vom Host aus erreichbar sind, werden im Compose-Beispiel Ports veröffentlicht (3000, 8000 als typische Entwicklungsports). Diese können je nach Projekt angepasst oder um weitere ergänzt werden. Durch VS Code Devcontainer-Konfiguration lassen sich Ports auch automatisch forwardencode.visualstudio.com, sodass der Entwickler in VS Code eine Benachrichtigung erhält und die laufende App im Browser öffnen kann.
-Nicht im Container enthalten: Wie im Projekt-Charter definiert, sind zentrale Infrastruktur-Komponenten wie SSO/Identity-Management oder globales Lizenzmanagement nicht Teil der Container-Umgebung. Diese würden in der Regel außerhalb gehandhabt (z.B. durch bestehende Unternehmens-SSO in der IDE nutzen, nicht aber im isolierten Devcontainer). Das Dockerfile fokussiert sich daher auf die Entwicklungs- und Sicherheitstools und verzichtet bewusst auf SSO-Agents o.ä.
+## Volumes & Arbeitsverzeichnis
+Im Dockerfile setzen wir WORKDIR /workspace – dieses Verzeichnis dient als Mount-Point für den Quellcode der Projekte. In der Compose-Datei wird das aktuelle Projektverzeichnis vom Host genau dort eingehängt. So arbeiten Entwickler im Container direkt mit den Host-Dateien, was schnellen Dateiabgleich ermöglicht. Zusätzlich könnten weitere Volumes definiert werden, etwa um Build-Caches oder Tool-Konfigurationen (npm Cache, Maven Repository etc.) persistent zu halten und den Aufbau zu beschleunigen. Solche Caches liegen oft in Home-Verzeichnissen – man könnte sie via Volume mounten, damit z.B. beim nächsten Container-Start Bibliotheken nicht erneut komplett heruntergeladen werden müssen.
+
+## Ports
+Damit Web-Apps, APIs oder andere Dienste im Container vom Host aus erreichbar sind, werden im Compose-Beispiel Ports veröffentlicht (3000, 8000 als typische Entwicklungsports). Diese können je nach Projekt angepasst oder um weitere ergänzt werden. Durch VS Code Devcontainer-Konfiguration lassen sich Ports auch automatisch forwarden code.visualstudio.com, sodass der Entwickler in VS Code eine Benachrichtigung erhält und die laufende App im Browser öffnen kann.
+## Nicht im Container enthalten
+Wie im Projekt-Charter definiert, sind zentrale Infrastruktur-Komponenten wie SSO/Identity-Management oder globales Lizenzmanagement nicht Teil der Container-Umgebung. Diese würden in der Regel außerhalb gehandhabt (z.B. durch bestehende Unternehmens-SSO in der IDE nutzen, nicht aber im isolierten Devcontainer). Das Dockerfile fokussiert sich daher auf die Entwicklungs- und Sicherheitstools und verzichtet bewusst auf SSO-Agents o.ä.
 
 # Verwendung von Docker Compose 🗂️
 Der Einsatz einer docker-compose.yml (bzw. im neueren Docker eine docker compose Datei) ist insbesondere dann sinnvoll, wenn die Entwicklungsumgebung aus mehreren Container-Diensten besteht. Im einfachsten Fall reicht zwar der einzelne IDE-Container, aber viele Projekte benötigen zusätzliche Services zur Entwicklungszeit – z. B. eine lokale Datenbank, ein Message-Broker oder ähnliche Abhängigkeiten. Mit Docker Compose können solche Dienste gemeinsam mit der IDE-Umgebung definiert und gestartet werden. So könnte man etwa einen 
