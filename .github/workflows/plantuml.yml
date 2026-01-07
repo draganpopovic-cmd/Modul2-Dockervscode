@@ -71,11 +71,30 @@ jobs:
           echo "workflow_dispatch detected: grassedge/generate-plantuml-action expects push commit metadata and is skipped."
           echo "To render diagrams, push a change to a .md/.puml/.plantuml file."
 
-      - name: Render PlantUML
+      - name: Render PlantUML (all files)
         if: github.event_name == 'push'
-        uses: grassedge/generate-plantuml-action@v1.5
-        with:
-          path: 'diagrams' # includes diagrams/extracted generated from Markdown
-          message: Render PlantUML files
+        run: |
+          set -euo pipefail
+          mkdir -p diagrams/rendered
+          # Render every .puml/.plantuml file (including diagrams/extracted generated from Markdown)
+          mapfile -t FILES < <(find diagrams -type f \( -name "*.puml" -o -name "*.plantuml" \))
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "No .puml/.plantuml files found under diagrams/"
+            exit 0
+          fi
+          # Convert to absolute paths inside the container
+          ARGS=()
+          for f in "${FILES[@]}"; do
+            ARGS+=("/work/$f")
+          done
+          docker run --rm -v "$PWD:/work" plantuml/plantuml -tsvg -o /work/diagrams/rendered "${ARGS[@]}"
+
+      - name: Auto-Commit rendered diagrams
+        if: github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
         env:
           GITHUB_TOKEN: ${{ env.PLANTUML_TOKEN }}
+        with:
+          commit_message: "chore: render plantuml diagrams"
+          file_pattern: |
+            diagrams/**/*
