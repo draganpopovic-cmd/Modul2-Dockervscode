@@ -42,6 +42,7 @@ CONTAINER ID   IMAGE                     COMMAND            CREATED          STA
 
 ```
 ![alt text](image-1.png)
+
 ![alt text](image.png)
 
 Container stoppen:
