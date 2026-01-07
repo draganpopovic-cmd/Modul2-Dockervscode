@@ -1,23 +1,32 @@
 name: Generate PlantUML Diagrams
 on:
   push:
+    branches: [ main ] # Oder Ihr Standard-Branch-Name
     paths:
-      - '**.puml' # Trigger nur bei Änderungen an PlantUML-Dateien
+      - '**.puml'
+
 jobs:
   render:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Wichtig für den Schreibzugriff
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Holt die gesamte Historie für korrekte Merges
 
       - name: Render PlantUML
         uses: grassedge/generate-plantuml-action@v1.5
         with:
-          path: 'diagrams' # Zielordner für die Bilder
+          path: 'diagrams'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Auto-Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Update rendered PlantUML diagrams"
+          commit_message: "chore: update mindmap diagrams"
+          # Verhindert den Fehler durch Zusammenführen der Änderungen
+          push_options: '--force' 
+
