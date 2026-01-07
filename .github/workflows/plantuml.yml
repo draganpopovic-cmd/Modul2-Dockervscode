@@ -60,5 +60,5 @@ jobs:
         with:
           path: 'diagrams' # includes diagrams/extracted generated from Markdown
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           PLANTUML_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
 
