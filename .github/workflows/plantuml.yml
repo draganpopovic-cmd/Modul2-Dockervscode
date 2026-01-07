@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # Wichtig für den Schreibzugriff
+    env:
+      # Use a PAT (if configured) otherwise fall back to the default workflow token
+      PLANTUML_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -55,10 +58,17 @@ jobs:
           print(f"Extracted {written} PlantUML blocks into {out_dir}")
           PY
 
+      - name: Debug context
+        run: |
+          echo "actor=${{ github.actor }}"
+          echo "event=${{ github.event_name }}"
+          echo "ref=${{ github.ref }}"
+
       - name: Render PlantUML
         uses: grassedge/generate-plantuml-action@v1.5
         with:
           path: 'diagrams' # includes diagrams/extracted generated from Markdown
+          message: Render PlantUML files
         env:
-           PLANTUML_TOKEN: ${{ secrets.PLANTUML_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ env.PLANTUML_TOKEN }}
 
