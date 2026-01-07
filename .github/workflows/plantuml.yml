@@ -57,7 +57,7 @@ jobs:
       - name: Render PlantUML
         uses: grassedge/generate-plantuml-action@v1.5
         with:
-          path: 'diagrams' # includes diagrams/extracted generated from Markdown
+          path: '/diagrams' # includes diagrams/extracted generated from Markdown
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
