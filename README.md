@@ -28,7 +28,6 @@ Gitleaks) in einem Ubuntu-Container bündelt.
 - Docker Compose (v2 empfohlen)
 - Optional: VS Code + Dev Containers Extension
 
-
 ## Quickstart
 Build und Start:
 
